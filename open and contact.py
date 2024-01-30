@@ -7,6 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import random
 from selenium.webdriver.chrome.options import Options
+import pandas as pd
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 
@@ -18,7 +19,7 @@ driver = webdriver.Chrome()
 #this function check if instagram asks to activate notifications
 def check_notification_message():
     try:
-        time.sleep(7)
+        time.sleep(4)
         driver.find_element(By.XPATH, '/html/body/div[3]/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[3]/button[2]')
     except NoSuchElementException:
         return False
@@ -31,7 +32,7 @@ def check_notification_message():
 def login_insta(user, message, index, counter):
     if index == 0:
         try:
-            elem = WebDriverWait(driver, 30).until(
+            elem = WebDriverWait(driver, 15).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[1]/div/label/input')))
         finally:      
             instagram_username = driver.find_element(By.XPATH, '//*[@id="loginForm"]/div/div[1]/div/label/input')
@@ -110,7 +111,7 @@ def press_checkbox(message, counter, index):
 #Choose the message text    
 def start_chat(message, counter, index):
     try:
-        WebDriverWait(driver, 15).until(
+        WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "div[role = 'button']")))
     finally:
         chat_btn = driver.find_elements(By.CSS_SELECTOR, "div[role = 'button']")
@@ -148,17 +149,17 @@ def run_program(user, message, index, counter):
     login_insta(user, message, index, counter)
 
 
+def read_csv_and_start():
+    index = 0
+    message_counter = 0
+    run_program(user= users_arr[index], message= messages_arr[index], index= index, counter = message_counter)
 
 
-users_arr = ["omermitran", "onward.inc"]
-messages_arr = ["test", "this is a test"]
-index = 0
-message_counter = 0
-
-
-run_program(user= users_arr[index], message= messages_arr[index], index= index, counter = message_counter)
-
-
+cols = ["Users", "Messages"]
+data = pd.read_csv("Untitled spreadsheet - Sheet1.csv", usecols=cols)
+users_arr = data.Users.values.tolist()
+messages_arr = data.Messages.values.tolist()
+read_csv_and_start()
 
 
 
