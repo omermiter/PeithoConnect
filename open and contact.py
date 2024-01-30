@@ -6,6 +6,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 import time
 import random
+from selenium.webdriver.chrome.options import Options
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+
 
 driver = webdriver.Chrome()
 
