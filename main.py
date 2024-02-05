@@ -8,6 +8,7 @@ root = tk.Tk()
 root.geometry("400x400")
 root.columnconfigure(0, weight=1)
 first_run = True
+root.title("Peitho Connect")
 
 mainframe = ttk.Frame(root, padding=(30,10))
 mainframe.grid(column=0, row=0)
